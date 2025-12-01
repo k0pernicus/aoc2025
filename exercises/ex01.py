@@ -10,7 +10,7 @@ class Ex01(Solver):
 
     def _parse_inputfile(self):
         if len(self._LINES) > 0: return self._LINES
-        with open(self.input_filepath, 'r') as f:
+        with open(self._input_filepath, 'r') as f:
             for line in f:
                 stripped_line = line.strip()
                 if not stripped_line: continue
