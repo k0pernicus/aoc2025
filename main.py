@@ -2,7 +2,7 @@ import argparse
 import importlib
 import sys
 
-def run_exercise(exercise_name, input_filename, solve_part1 = True, solve_part2 = True):
+def run_exercise(exercise_name, input_filename, debug_logs = False, solve_part1 = True, solve_part2 = True):
     # Dynamic Import
     try:
         module = importlib.import_module(f"exercises.{exercise_name}")
@@ -21,7 +21,7 @@ def run_exercise(exercise_name, input_filename, solve_part1 = True, solve_part2 
     SolverClass = getattr(module, class_name)
 
     print(f"--- Running {class_name} ---")
-    solver = SolverClass(input_filename)
+    solver = SolverClass(input_filename, debug_logs)
 
     if solve_part1:
         res = solver.solve_part1()
@@ -41,7 +41,8 @@ if __name__ == "__main__":
     parser.add_argument("input", help="The path of the input file")
     parser.add_argument("--disable-part1", help="Do not run part 1", action='store_true', default=False)
     parser.add_argument("--disable-part2", help="Do not run part 2", action='store_true', default=False)
+    parser.add_argument("--debug", help="Enable debug logs", action='store_true', default=False)
 
     args = parser.parse_args()
 
-    run_exercise(args.exercise, args.input, solve_part1=(not args.disable_part1), solve_part2=(not args.disable_part2))
+    run_exercise(args.exercise, args.input, debug_logs=args.debug, solve_part1=(not args.disable_part1), solve_part2=(not args.disable_part2))

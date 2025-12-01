@@ -1,4 +1,5 @@
 from solver import Solver
+import logger
 import os
 
 INIT_POSITION = 50
@@ -28,9 +29,9 @@ class Ex01(Solver):
             dxn = (-1 if line[0] == 'L' else 1)
 
             position = ((position + dxn * mag) % 100)
-            if position is 0: nb_zeroes += 1
+            if position == 0: nb_zeroes += 1
 
-            print(f'with line of {line} => {position}')
+            self._logger.log(f'with line of {line} => {position}', level=logger.DEBUG)
 
         return nb_zeroes
 
@@ -53,6 +54,6 @@ class Ex01(Solver):
             nb_zeroes += rotations + crosses_zero
             position = position % 100
 
-            print(f'with line of {line} => {position}')
+            self._logger.log(f'with line of {line} => {position}', level=logger.DEBUG)
 
         return nb_zeroes
