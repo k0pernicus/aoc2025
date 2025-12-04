@@ -3,10 +3,6 @@ import logger
 from enum import Enum
 from copy import deepcopy
 
-CASE_EMPTY = '.'
-CASE_ROLL_ACCESS = 'x'
-CASE_ROLL = '@'
-
 class Ex04(Solver):
     # Cached parsed input
     _LINES = []
@@ -33,10 +29,9 @@ class Ex04(Solver):
             for x in range(0, len(line)):
                 if line[x] == '@':
                     combinations = [(y + 1, x), (y - 1, x), (y, x + 1), (y, x - 1), (y - 1, x - 1), (y + 1, x + 1), (y - 1, x + 1), (y + 1, x - 1)]
-                    combinations = list(filter(lambda elt: elt[1] >= 0 and elt[1] < MAX_X and elt[0] >= 0 and elt[0] < MAX_Y, combinations))
-                    rolls = list(map(lambda coordinate: lines[coordinate[0]][coordinate[1]], combinations))
-                    rolls = list(filter(lambda case: case == '@', rolls))
-                    if len(rolls) < 4:
+                    combinations = filter(lambda elt: elt[1] >= 0 and elt[1] < MAX_X and elt[0] >= 0 and elt[0] < MAX_Y, combinations)
+                    rolls = filter(lambda case: case == '@', map(lambda coordinate: lines[coordinate[0]][coordinate[1]], combinations))
+                    if len(list(rolls)) < 4:
                         res_lines[y][x] = 'x'
                         result += 1
 
@@ -56,10 +51,9 @@ class Ex04(Solver):
                 for x in range(0, len(line)):
                     if line[x] == '@':
                         combinations = [(y + 1, x), (y - 1, x), (y, x + 1), (y, x - 1), (y - 1, x - 1), (y + 1, x + 1), (y - 1, x + 1), (y + 1, x - 1)]
-                        combinations = list(filter(lambda elt: elt[1] >= 0 and elt[1] < MAX_X and elt[0] >= 0 and elt[0] < MAX_Y, combinations))
-                        rolls = list(map(lambda coordinate: lines[coordinate[0]][coordinate[1]], combinations))
-                        rolls = list(filter(lambda case: case == '@', rolls))
-                        if len(rolls) < 4:
+                        combinations = filter(lambda elt: elt[1] >= 0 and elt[1] < MAX_X and elt[0] >= 0 and elt[0] < MAX_Y, combinations)
+                        rolls = filter(lambda case: case == '@', map(lambda coordinate: lines[coordinate[0]][coordinate[1]], combinations))
+                        if len(list(rolls)) < 4:
                             removed_lines[y][x] = '.'
                             removed_rolls += 1
             if removed_rolls == 0: break
