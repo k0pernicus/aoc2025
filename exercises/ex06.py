@@ -52,36 +52,28 @@ class Ex06(Solver):
 
     def _parse_inputfile_part2(self):
         # Read the last line first to get the operator positions
-        token_positions = []
-        with open(self._input_filepath, 'rb') as f:
-            try:  # catch OSError in case of a one line file
-                f.seek(-2, os.SEEK_END)
-                while f.read(1) != b'\n':
-                    f.seek(-2, os.SEEK_CUR)
-            except OSError:
-                f.seek(0)
-            last_line = f.readline().decode()[1:]
-            # once we have the last line, we have the alignment, and we can
-            # paddle the rest
-            current_position = 0
-            while current_position < len(last_line):
-                if last_line[current_position] in ['*', '+']:
-                    token_positions.append(current_position)
-                current_position += 1
-            token_positions.append(len(last_line))
+        token_positions = lines = []
+        # Not optimized read but we do not care for this exercise
+        with open(self._input_filepath, 'r') as f:
+            lines = f.readlines()
+        
+        last_line = lines[-1]
+        # once we have the last line, we have the alignment, and we can
+        # paddle the rest
+        current_position = 0
+        token_positions = [position for position, character in enumerate(last_line[1:]) if character in ['+', '*']]
+        token_positions.append(len(last_line))
 
         # Pre-allocate
         self._VALUES = [ [] for i in range(len(token_positions)) ]
-
-        with open(self._input_filepath, 'r') as f:
-            values_lists : List[str] = f.readlines()[:-1] # Do not read again the last line
-            for values in values_lists:
-                previous_token_position = 0
-                for i, position in enumerate(token_positions):
-                    cpart = values[previous_token_position:position]
-                    cpart = cpart.replace(' ', '0') # We are interested in filling blanks by zeroes...
-                    self._VALUES[i].append(int(cpart)) # Magic trick: all right zero values are correctly parsed
-                    previous_token_position = position + 1
+        
+        for values in lines[0:-1]:
+            previous_token_position = 0
+            for i, position in enumerate(token_positions):
+                cpart = values[previous_token_position:position]
+                cpart = cpart.replace(' ', '0') # We are interested in filling blanks by zeroes...
+                self._VALUES[i].append(int(cpart)) # Magic trick: all right zero values are correctly parsed
+                previous_token_position = position + 1
 
         return self._VALUES, self._OPERATIONS
 
