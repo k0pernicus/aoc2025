@@ -29,24 +29,6 @@ class Ex10(Solver):
         return (self._PUZZLES, self._BUTTONS, self._VOLTS)
 
     def solve_part1(self):
-
-
-# count = 0
-# for machine in machines:
-#     init = 0
-#     visited = {init}
-#     queue = deque([(init, 0)])
-#     while queue:
-#         prev, n = queue.popleft()
-#         if prev == machine.lights:
-#             count += n
-#             break
-#         for b in machine.buttons:
-#             xor = prev ^ b
-#             if xor not in visited:
-#                 visited.add(xor)
-#                 queue.append((xor, n + 1))
-
         puzzles, buttons, volts = self.parse_file()
         result = 0
 
