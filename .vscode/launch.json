@@ -12,8 +12,8 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "ex01",
-                "examples/ex01_01.txt"
+                "ex09",
+                "examples/ex09_01.txt"
             ],
         }
     ]
