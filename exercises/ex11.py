@@ -2,7 +2,7 @@ from solver import Solver
 import logger
 from collections import defaultdict, deque
 from typing import Set
-import itertools
+import functools
 
 class Ex11(Solver):
     _PATHS = defaultdict(Set[str])
@@ -19,23 +19,31 @@ class Ex11(Solver):
 
     def solve_part1(self):
         paths = self.parse_file()
-        end_paths = []
 
         def dfs(input, visited): 
-            if input == 'out':
-                end_paths.append(visited)
-                return
-            if input in visited:
-                return
+            if input == 'out': return 1
+            if input in visited: return 0
+            total_paths = 0
             for output in self._PATHS[input]:
-                dfs(output, visited ^ {input})
+                total_paths += dfs(output, visited ^ {input})
+            return total_paths
 
-        dfs('you', set())
-
-        return len(end_paths)
+        return dfs('you', set())
 
     def solve_part2(self):
         paths = self.parse_file()
-        result = 0
 
-        return result
+        @functools.lru_cache(maxsize=None)
+        def count_paths_from(node, found_fft, found_dac):
+            if node == 'fft': found_fft = True
+            elif node == 'dac': found_dac = True
+            
+            if node == 'out': return 1 if (found_fft and found_dac) else 0
+            
+            total_paths = 0
+            for neighbor in paths[node]:
+                total_paths += count_paths_from(neighbor, found_fft, found_dac)
+            
+            return total_paths
+
+        return count_paths_from('svr', False, False)
