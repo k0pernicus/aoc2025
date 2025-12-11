@@ -20,12 +20,12 @@ class Ex11(Solver):
     def solve_part1(self):
         paths = self.parse_file()
 
-        def dfs(input, visited): 
-            if input == 'out': return 1
-            if input in visited: return 0
+        def dfs(node, visited): 
+            if node == 'out': return 1
+            if node in visited: return 0
             total_paths = 0
-            for output in self._PATHS[input]:
-                total_paths += dfs(output, visited ^ {input})
+            for output in self._PATHS[node]:
+                total_paths += dfs(output, visited ^ {node})
             return total_paths
 
         return dfs('you', set())
