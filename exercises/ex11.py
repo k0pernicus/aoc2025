@@ -28,12 +28,11 @@ class Ex11(Solver):
             if input in visited:
                 return
             for output in self._PATHS[input]:
-                dfs(output, visited + [input])
+                dfs(output, visited ^ {input})
 
-        dfs('you', [])
+        dfs('you', set())
 
-        end_paths.sort()
-        return len(list(paths for paths, _ in itertools.groupby(end_paths)))
+        return len(end_paths)
 
     def solve_part2(self):
         paths = self.parse_file()
